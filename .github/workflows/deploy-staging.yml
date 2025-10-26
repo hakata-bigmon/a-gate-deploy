@@ -9,6 +9,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Fix key newlines & perms
+        run: |
+          sed -i 's/\r$//' ~/.ssh/id_xserver
+          chmod 600 ~/.ssh/id_xserver
+      
       - name: Prepare SSH
         run: |
           set -e
