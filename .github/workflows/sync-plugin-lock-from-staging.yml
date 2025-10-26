@@ -47,15 +47,33 @@ jobs:
           echo "----- plugin-lock.txt (first lines) -----"
           head -n 5 plugin-lock.txt || true
 
-      - name: Commit & push if changed
+      - name: Commit & rebase-push if changed
         run: |
           set -e
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      
+          # 変更が無ければ終了
           if git diff --quiet -- plugin-lock.txt; then
             echo "No changes in plugin-lock.txt"
             exit 0
           fi
+      
           git add plugin-lock.txt
           git commit -m "chore(lock): sync plugin-lock from staging"
-          git push
+      
+          # 最新を取り込みつつ自分のコミットを載せ替える
+          git fetch origin staging
+          git rebase origin/staging
+      
+          # 競合が出たら自動解決（ロックは常に“最新の生成物”を優先）
+          if ! git push origin HEAD:staging; then
+            echo "Push rejected, attempting one-shot resolve..."
+            git fetch origin staging
+            # plugin-lock.txt を再生成した方が正なので ours を優先
+            git checkout --ours plugin-lock.txt || true
+            git add plugin-lock.txt || true
+            git rebase --continue || true
+            git push --force-with-lease origin HEAD:staging
+          fi
+    
