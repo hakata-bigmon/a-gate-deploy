@@ -11,18 +11,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # ① 秘密鍵を書き出し & known_hosts 登録（CRLFも除去）
       - name: Prepare SSH (write key & known_hosts)
         run: |
           set -e
           install -m 700 -d ~/.ssh
-          # Secretsの鍵を出力（WindowsのCRLFを除去）
-          printf "%s" "${{ secrets.X_SSH_KEY }}" | tr -d '\r' > ~/.ssh/id_xserver
+          # まずはそのまま書き出し
+          printf "%s" "${{ secrets.X_SSH_KEY }}" > ~/.ssh/id_xserver || true
+          # 万一 \n が文字列で来た場合は実改行に変換
+          grep -q "OPENSSH PRIVATE KEY" ~/.ssh/id_xserver || sed -i 's/\\n/\n/g' ~/.ssh/id_xserver
+          # WindowsのCRLF除去
+          sed -i 's/\r$//' ~/.ssh/id_xserver
           chmod 600 ~/.ssh/id_xserver
+          # 鍵の健全性チェック（失敗なら原因を表示して終了）
+          ssh-keygen -y -f ~/.ssh/id_xserver >/dev/null 2>keycheck.err || (echo "❌ Invalid private key in X_SSH_KEY:"; cat keycheck.err; exit 1)
           # 接続先ホスト鍵を登録
           ssh-keyscan -p ${{ secrets.X_PORT }} ${{ secrets.X_HOST }} >> ~/.ssh/known_hosts
-          # 鍵が空でないか確認
-          test -s ~/.ssh/id_xserver || (echo "X_SSH_KEY is empty"; exit 1)
 
       # ② 接続テスト（通るかだけ確認）
       - name: Test SSH connectivity
