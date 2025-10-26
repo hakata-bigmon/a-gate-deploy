@@ -1,4 +1,5 @@
 name: Deploy Staging
+
 on:
   push:
     branches: ["staging"]
@@ -6,67 +7,54 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
-      - name: Fix key newlines & perms
+      # ① 秘密鍵を書き出し & known_hosts 登録（CRLFも除去）
+      - name: Prepare SSH (write key & known_hosts)
         run: |
-          sed -i 's/\r$//' ~/.ssh/id_xserver
+          set -e
+          install -m 700 -d ~/.ssh
+          # Secretsの鍵を出力（WindowsのCRLFを除去）
+          printf "%s" "${{ secrets.X_SSH_KEY }}" | tr -d '\r' > ~/.ssh/id_xserver
           chmod 600 ~/.ssh/id_xserver
-          
-      - name: Fix key newlines & perms
-        run: |
-          sed -i 's/\r$//' ~/.ssh/id_xserver
-          chmod 600 ~/.ssh/id_xserver
+          # 接続先ホスト鍵を登録
+          ssh-keyscan -p ${{ secrets.X_PORT }} ${{ secrets.X_HOST }} >> ~/.ssh/known_hosts
+          # 鍵が空でないか確認
+          test -s ~/.ssh/id_xserver || (echo "X_SSH_KEY is empty"; exit 1)
 
-      - name: Test SSH connectivity (verbose)
+      # ② 接続テスト（通るかだけ確認）
+      - name: Test SSH connectivity
         run: |
-          ssh -vvv -o IdentitiesOnly=yes \
-            -o PreferredAuthentications=publickey \
-            -o ServerAliveInterval=30 -o ServerAliveCountMax=2 \
-            -p ${{ secrets.X_PORT }} -i ~/.ssh/id_xserver \
-            ${{ secrets.X_USER }}@${{ secrets.X_HOST }} "echo OK && exit"
+          ssh -o IdentitiesOnly=yes -o BatchMode=yes \
+              -p ${{ secrets.X_PORT }} -i ~/.ssh/id_xserver \
+              ${{ secrets.X_USER }}@${{ secrets.X_HOST }} "echo OK && exit"
 
-      # scpが弾かれる場合は、ファイルをSSHで直接生成
+      # ③ scpを使わず、SSH経由で /tmp に plugin-lock.txt を生成
       - name: Create plugin-lock.txt remotely (no scp)
         run: |
           CONTENT=$(base64 -w0 plugin-lock.txt)
           ssh -p ${{ secrets.X_PORT }} -i ~/.ssh/id_xserver \
             ${{ secrets.X_USER }}@${{ secrets.X_HOST }} \
-            "echo $CONTENT | base64 -d > /tmp/plugin-lock.txt && wc -l /tmp/plugin-lock.txt"
-      
-      - name: Prepare SSH
-        run: |
-          set -e
-          mkdir -p ~/.ssh && chmod 700 ~/.ssh
-          # 改行が消えている対策：\n を本当の改行に戻す
-          echo "${{ secrets.X_SSH_KEY }}" | sed 's/\\n/\n/g' > ~/.ssh/id_xserver
-          chmod 600 ~/.ssh/id_xserver
-          touch ~/.ssh/known_hosts
-          ssh-keyscan -p ${{ secrets.X_PORT }} ${{ secrets.X_HOST }} >> ~/.ssh/known_hosts
+            "echo $CONTENT | base64 -d > /tmp/plugin-lock.txt && wc -l /tmp/plugin-lock.txt && head -n 3 /tmp/plugin-lock.txt"
 
-      - name: Debug SSH connectivity
-        run: |
-          ssh -vvv -o IdentitiesOnly=yes \
-              -o PreferredAuthentications=publickey \
-              -o ServerAliveInterval=30 -o ServerAliveCountMax=2 \
-              -p ${{ secrets.X_PORT }} -i ~/.ssh/id_xserver \
-              ${{ secrets.X_USER }}@${{ secrets.X_HOST }} "echo OK && uname -a"
-
-
-      - name: Upload plugin-lock.txt
-        run: scp -P ${{ secrets.X_PORT }} -i ~/.ssh/id_xserver plugin-lock.txt ${{ secrets.X_USER }}@${{ secrets.X_HOST }}:/tmp/plugin-lock.txt
-
+      # ④ テーマ同期（./theme/ → サーバの THEME_PATH_STAGING 配下）
       - name: Sync Theme to STAGING
         run: |
-          rsync -avz --delete -e "ssh -p ${{ secrets.X_PORT }} -i ~/.ssh/id_xserver" \
-            ./theme/ "${{ secrets.X_USER }}@${{ secrets.X_HOST }}:${{ secrets.THEME_PATH_STAGING }}/"
+          rsync -avz --delete \
+            -e "ssh -p ${{ secrets.X_PORT }} -i ~/.ssh/id_xserver" \
+            ./theme/ \
+            "${{ secrets.X_USER }}@${{ secrets.X_HOST }}:${{ secrets.THEME_PATH_STAGING }}/"
 
+      # ⑤ WP-CLIでロック適用（プラグインを同じ状態に）
       - name: Apply plugin lock (STG)
         run: |
           ssh -p ${{ secrets.X_PORT }} -i ~/.ssh/id_xserver ${{ secrets.X_USER }}@${{ secrets.X_HOST }} <<'EOSSH'
             set -e
             cd "${WP_PATH_STAGING}"
+
+            # ロックに書いたプラグインをインストール/更新/有効化
             while IFS= read -r line; do
               [[ -z "$line" || "$line" =~ ^# ]] && continue
               slug="${line%@*}"; ver="${line#*@}"
@@ -81,6 +69,7 @@ jobs:
                 fi
               fi
             done < /tmp/plugin-lock.txt
+
             # ロック外は無効化（削除は慣れてから）
             mapfile -t keep < <(grep -vE '^\s*#|^\s*$' /tmp/plugin-lock.txt | sed 's/@.*$//' | sort -u)
             mapfile -t installed < <(wp plugin list --field=name | sort -u)
