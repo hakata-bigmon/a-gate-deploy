@@ -74,7 +74,7 @@ jobs:
               wp --path="$WP_PATH" plugin install "$ver" --force --activate
             else
               if wp --path="$WP_PATH" plugin is-installed "$slug"; then
-                wp --path="$WP_PATH" plugin update "$slug" --version="$ver" --force
+                wp --path="$WP_PATH" plugin update "$slug" --version="$ver"
                 wp --path="$WP_PATH" plugin activate "$slug" || true
               else
                 wp --path="$WP_PATH" plugin install "$slug" --version="$ver" --activate
