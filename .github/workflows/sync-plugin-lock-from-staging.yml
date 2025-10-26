@@ -38,6 +38,20 @@ jobs:
              echo implode(PHP_EOL,array_unique(\$out));
              ' > /tmp/plugin-lock.txt && head -n 5 /tmp/plugin-lock.txt"
 
+      - name: Export ACTIVE plugins from STAGING
+        run: |
+            ssh -p ${{ secrets.X_PORT }} -i ~/.ssh/id_xserver ${{ secrets.X_USER }}@${{ secrets.X_HOST }} \
+              "wp --path='${{ secrets.WP_PATH_STAGING }}' plugin list --status=active --field=name | sort -u > /tmp/plugin-activate.txt && head -n 5 /tmp/plugin-activate.txt"
+        
+      - name: Download plugin-activate.txt to repo
+        run: |
+            ssh -p ${{ secrets.X_PORT }} -i ~/.ssh/id_xserver ${{ secrets.X_USER }}@${{ secrets.X_HOST }} \
+              "base64 -w0 /tmp/plugin-activate.txt" > /tmp/act.b64
+            base64 -d /tmp/act.b64 > plugin-activate.txt
+            echo "----- plugin-activate.txt (first lines) -----"
+            head -n 5 plugin-activate.txt || true
+
+
       - name: Download plugin-lock.txt to runner
         run: |
           # scpが苦手な環境でも確実に拾えるようにcat→base64で回収
