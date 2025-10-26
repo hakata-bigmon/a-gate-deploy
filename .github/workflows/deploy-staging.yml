@@ -13,10 +13,20 @@ jobs:
         run: |
           set -e
           mkdir -p ~/.ssh && chmod 700 ~/.ssh
-          echo "${{ secrets.X_SSH_KEY }}" > ~/.ssh/id_xserver
+          # 改行が消えている対策：\n を本当の改行に戻す
+          echo "${{ secrets.X_SSH_KEY }}" | sed 's/\\n/\n/g' > ~/.ssh/id_xserver
           chmod 600 ~/.ssh/id_xserver
           touch ~/.ssh/known_hosts
           ssh-keyscan -p ${{ secrets.X_PORT }} ${{ secrets.X_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Debug SSH connectivity
+        run: |
+          ssh -vvv -o IdentitiesOnly=yes \
+              -o PreferredAuthentications=publickey \
+              -o ServerAliveInterval=30 -o ServerAliveCountMax=2 \
+              -p ${{ secrets.X_PORT }} -i ~/.ssh/id_xserver \
+              ${{ secrets.X_USER }}@${{ secrets.X_HOST }} "echo OK && uname -a"
+
 
       - name: Upload plugin-lock.txt
         run: scp -P ${{ secrets.X_PORT }} -i ~/.ssh/id_xserver plugin-lock.txt ${{ secrets.X_USER }}@${{ secrets.X_HOST }}:/tmp/plugin-lock.txt
