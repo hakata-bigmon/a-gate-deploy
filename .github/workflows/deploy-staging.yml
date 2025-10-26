@@ -13,6 +13,27 @@ jobs:
         run: |
           sed -i 's/\r$//' ~/.ssh/id_xserver
           chmod 600 ~/.ssh/id_xserver
+          
+      - name: Fix key newlines & perms
+        run: |
+          sed -i 's/\r$//' ~/.ssh/id_xserver
+          chmod 600 ~/.ssh/id_xserver
+
+      - name: Test SSH connectivity (verbose)
+        run: |
+          ssh -vvv -o IdentitiesOnly=yes \
+            -o PreferredAuthentications=publickey \
+            -o ServerAliveInterval=30 -o ServerAliveCountMax=2 \
+            -p ${{ secrets.X_PORT }} -i ~/.ssh/id_xserver \
+            ${{ secrets.X_USER }}@${{ secrets.X_HOST }} "echo OK && exit"
+
+      # scpが弾かれる場合は、ファイルをSSHで直接生成
+      - name: Create plugin-lock.txt remotely (no scp)
+        run: |
+          CONTENT=$(base64 -w0 plugin-lock.txt)
+          ssh -p ${{ secrets.X_PORT }} -i ~/.ssh/id_xserver \
+            ${{ secrets.X_USER }}@${{ secrets.X_HOST }} \
+            "echo $CONTENT | base64 -d > /tmp/plugin-lock.txt && wc -l /tmp/plugin-lock.txt"
       
       - name: Prepare SSH
         run: |
