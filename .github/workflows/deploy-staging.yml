@@ -1,0 +1,59 @@
+name: Deploy Staging
+on:
+  push:
+    branches: ["staging"]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prepare SSH
+        run: |
+          set -e
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          echo "${{ secrets.X_SSH_KEY }}" > ~/.ssh/id_xserver
+          chmod 600 ~/.ssh/id_xserver
+          touch ~/.ssh/known_hosts
+          ssh-keyscan -p ${{ secrets.X_PORT }} ${{ secrets.X_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Upload plugin-lock.txt
+        run: scp -P ${{ secrets.X_PORT }} -i ~/.ssh/id_xserver plugin-lock.txt ${{ secrets.X_USER }}@${{ secrets.X_HOST }}:/tmp/plugin-lock.txt
+
+      - name: Sync Theme to STAGING
+        run: |
+          rsync -avz --delete -e "ssh -p ${{ secrets.X_PORT }} -i ~/.ssh/id_xserver" \
+            ./theme/ "${{ secrets.X_USER }}@${{ secrets.X_HOST }}:${{ secrets.THEME_PATH_STAGING }}/"
+
+      - name: Apply plugin lock (STG)
+        run: |
+          ssh -p ${{ secrets.X_PORT }} -i ~/.ssh/id_xserver ${{ secrets.X_USER }}@${{ secrets.X_HOST }} <<'EOSSH'
+            set -e
+            cd "${WP_PATH_STAGING}"
+            while IFS= read -r line; do
+              [[ -z "$line" || "$line" =~ ^# ]] && continue
+              slug="${line%@*}"; ver="${line#*@}"
+              if [[ "$ver" =~ \.zip$ || "$ver" =~ ^https?:// ]]; then
+                wp plugin install "$ver" --force --activate
+              else
+                if wp plugin is-installed "$slug"; then
+                  wp plugin update "$slug" --version="$ver" --force
+                  wp plugin activate "$slug" || true
+                else
+                  wp plugin install "$slug" --version="$ver" --activate
+                fi
+              fi
+            done < /tmp/plugin-lock.txt
+            # ロック外は無効化（削除は慣れてから）
+            mapfile -t keep < <(grep -vE '^\s*#|^\s*$' /tmp/plugin-lock.txt | sed 's/@.*$//' | sort -u)
+            mapfile -t installed < <(wp plugin list --field=name | sort -u)
+            for p in "${installed[@]}"; do
+              skip=
+              for k in "${keep[@]}"; do [[ "$p" == "$k" ]] && skip=1 && break; done
+              [[ -n "$skip" ]] && continue
+              wp plugin deactivate "$p" || true
+            done
+          EOSSH
+        env:
+          WP_PATH_STAGING: ${{ secrets.WP_PATH_STAGING }}
