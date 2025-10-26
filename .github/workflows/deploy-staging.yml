@@ -92,3 +92,4 @@ jobs:
                 wp --path="$WP_PATH" plugin deactivate "$p" || true
               done
 EOSSH
+
