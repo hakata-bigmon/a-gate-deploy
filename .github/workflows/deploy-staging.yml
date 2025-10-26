@@ -68,44 +68,53 @@ jobs:
       # ⑥ リモートに apply-plugins.sh を作って実行（heredoc問題を回避）
       - name: Apply plugin lock (STG)
         run: |
-          # 1) ローカルでスクリプト作成（可読性のため）
-          cat > apply-plugins.sh <<'LOCALSCRIPT'
-          set -e
-          WP_PATH="$1"
-          cd "$WP_PATH"
-      
-          # ロックに書いたプラグインをインストール/更新/有効化
-          while IFS= read -r line; do
-            [[ -z "$line" || "$line" =~ ^# ]] && continue
-            slug="${line%@*}"; ver="${line#*@}"
-            if [[ "$ver" =~ \.zip$ || "$ver" =~ ^https?:// ]]; then
-              wp --path="$WP_PATH" plugin install "$ver" --force --activate
-            else
-              if wp --path="$WP_PATH" plugin is-installed "$slug"; then
-                wp --path="$WP_PATH" plugin update "$slug" --version="$ver"
-                wp --path="$WP_PATH" plugin activate "$slug" || true
-              else
-                wp --path="$WP_PATH" plugin install "$slug" --version="$ver" --activate
-              fi
-            fi
-          done < /tmp/plugin-lock.txt
-      
-          # ロック外は無効化（削除は慣れてから）
-          mapfile -t keep < <(grep -vE '^\s*#|^\s*$' /tmp/plugin-lock.txt | sed 's/@.*$//' | sort -u)
-          mapfile -t installed < <(wp --path="$WP_PATH" plugin list --field=name | sort -u)
-          for p in "${installed[@]}"; do
-            skip=
-            for k in "${keep[@]}"; do [[ "$p" == "$k" ]] && skip=1 && break; done
-            [[ -n "$skip" ]] && continue
-            wp --path="$WP_PATH" plugin deactivate "$p" || true
-          done
-          LOCALSCRIPT
-      
-          # 2) スクリプトをbase64で送り、リモートに配置
-          B64=$(base64 -w0 apply-plugins.sh)
+          # 1) インストール/更新（有効化しない）
           ssh -p ${{ secrets.X_PORT }} -i ~/.ssh/id_xserver ${{ secrets.X_USER }}@${{ secrets.X_HOST }} \
-            "echo $B64 | base64 -d > /tmp/apply-plugins.sh && chmod +x /tmp/apply-plugins.sh && head -n 3 /tmp/apply-plugins.sh"
+            bash -s -- "${{ secrets.WP_PATH_STAGING }}" <<'EOSSH'
+              set -e
+              WP_PATH="$1"
+              cd "$WP_PATH"
       
-          # 3) 実行（WP_PATH_STAGING を引数で渡す）
+              while IFS= read -r line; do
+                [[ -z "$line" || "$line" =~ ^# ]] && continue
+                slug="${line%@*}"; ver="${line#*@}"
+                if [[ "$ver" =~ \.zip$ || "$ver" =~ ^https?:// ]]; then
+                  # ZIP/URLはインストールのみ（無効のまま）
+                  wp --path="$WP_PATH" plugin install "$ver" --force
+                else
+                  if wp --path="$WP_PATH" plugin is-installed "$slug"; then
+                    wp --path="$WP_PATH" plugin update "$slug" --version="$ver" --force
+                  else
+                    wp --path="$WP_PATH" plugin install "$slug" --version="$ver"
+                  fi
+                fi
+              done < /tmp/plugin-lock.txt
+            EOSSH
+      
+          # 2) 有効化リストに合わせてオン/オフを揃える
+          #    （repoの plugin-activate.txt を送り込む）
+          CONTENT=$(base64 -w0 plugin-activate.txt)
           ssh -p ${{ secrets.X_PORT }} -i ~/.ssh/id_xserver ${{ secrets.X_USER }}@${{ secrets.X_HOST }} \
-            "/tmp/apply-plugins.sh '${{ secrets.WP_PATH_STAGING }}'"
+            "echo $CONTENT | base64 -d > /tmp/plugin-activate.txt && wc -l /tmp/plugin-activate.txt"
+      
+          ssh -p ${{ secrets.X_PORT }} -i ~/.ssh/id_xserver ${{ secrets.X_USER }}@${{ secrets.X_HOST }} \
+            bash -s -- "${{ secrets.WP_PATH_STAGING }}" <<'EOSSH'
+              set -e
+              WP_PATH="$1"
+              cd "$WP_PATH"
+      
+              # 望ましいactive集合
+              mapfile -t desired < <(grep -vE '^\s*#|^\s*$' /tmp/plugin-activate.txt | sort -u)
+              # 現在installed
+              mapfile -t installed < <(wp --path="$WP_PATH" plugin list --field=name | sort -u)
+      
+              # まず全て無効化
+              for p in "${installed[@]}"; do
+                wp --path="$WP_PATH" plugin deactivate "$p" || true
+              done
+      
+              # desired のみ有効化
+              for p in "${desired[@]}"; do
+                wp --path="$WP_PATH" plugin activate "$p" || true
+              done
+            EOSSH
