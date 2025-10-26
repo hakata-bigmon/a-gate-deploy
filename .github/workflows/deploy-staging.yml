@@ -91,5 +91,5 @@ jobs:
                 [[ -n "$skip" ]] && continue
                 wp --path="$WP_PATH" plugin deactivate "$p" || true
               done
-EOSSH
-
+            EOSSH
+          
