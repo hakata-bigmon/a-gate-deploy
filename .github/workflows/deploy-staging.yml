@@ -3,9 +3,17 @@ name: Deploy Staging
 on:
   push:
     branches: ["staging"]
+    paths:
+      - 'theme/**'             # テーマ変更で実行
+      - 'plugin-lock.txt'      # ロック更新で実行（外したいならこの行を消す）
+      - 'plugin-activate.txt'  # 有効化リスト更新で実行（使っていなければ消す）
+      - '!**.md'
+      - '!.github/**'          # ワークフロー編集では走らない
+  workflow_dispatch: {}         # 必要なら手動実行ボタンも残す
 
 jobs:
   deploy:
+    if: "!contains(github.event.head_commit.message, '[skip deploy]')"
     runs-on: ubuntu-latest
 
     steps:
