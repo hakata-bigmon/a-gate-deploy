@@ -4,10 +4,10 @@ all-in-one-wp-migration@7.100
 classic-editor@1.6.7
 contact-form-7@6.1.2
 custom-post-type-ui@1.18.0
-hello@1.7.2
 loginpress@6.0.0
 myasp-membership@1.0.6
 xserver-typesquare-webfonts@2.0.7
 wp-members@3.5.4.3
 wp-2fa@2.8.0
 wpforms-lite@1.9.8.2
+wp-mail-smtp@4.6.0
