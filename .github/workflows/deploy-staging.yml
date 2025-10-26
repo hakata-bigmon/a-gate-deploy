@@ -7,6 +7,7 @@ on:
       - 'theme/**'
       - 'plugin-lock.txt'
       - 'plugin-activate.txt'
+      - 'scripts/**'
       - '!**.md'
       - '!.github/**'
   workflow_dispatch: {}
@@ -36,12 +37,12 @@ jobs:
               -p ${{ secrets.X_PORT }} -i ~/.ssh/id_xserver \
               ${{ secrets.X_USER }}@${{ secrets.X_HOST }} "echo OK && exit"
 
-      - name: Create plugin-lock.txt remotely (no scp)
+      - name: Create plugin-lock.txt remotely
         run: |
           CONTENT=$(base64 -w0 plugin-lock.txt)
           ssh -p ${{ secrets.X_PORT }} -i ~/.ssh/id_xserver \
             ${{ secrets.X_USER }}@${{ secrets.X_HOST }} \
-            "echo $CONTENT | base64 -d > /tmp/plugin-lock.txt && wc -l /tmp/plugin-lock.txt && head -n 3 /tmp/plugin-lock.txt"
+            "echo $CONTENT | base64 -d > /tmp/plugin-lock.txt && wc -l /tmp/plugin-lock.txt"
 
       - name: Sync Theme to STAGING
         run: |
@@ -58,47 +59,26 @@ jobs:
 
       - name: Apply plugin lock (STG)
         run: |
-          # 1) インストール/更新（有効化しない）
-          ssh -p ${{ secrets.X_PORT }} -i ~/.ssh/id_xserver ${{ secrets.X_USER }}@${{ secrets.X_HOST }} \
-            bash -s -- "${{ secrets.WP_PATH_STAGING }}" <<'EOSSH'
-          set -e
-          WP_PATH="$1"
-          cd "$WP_PATH"
+          # スクリプトをリモートに転送
+          SCRIPT1=$(base64 -w0 scripts/install-plugins.sh)
+          SCRIPT2=$(base64 -w0 scripts/activate-plugins.sh)
           
-          while IFS= read -r line; do
-            [[ -z "$line" || "$line" =~ ^# ]] && continue
-            slug="${line%@*}"; ver="${line#*@}"
-            if [[ "$ver" =~ \.zip$ || "$ver" =~ ^https?:// ]]; then
-              wp --path="$WP_PATH" plugin install "$ver" --force
-            else
-              if wp --path="$WP_PATH" plugin is-installed "$slug"; then
-                wp --path="$WP_PATH" plugin update "$slug" --version="$ver"
-              else
-                wp --path="$WP_PATH" plugin install "$slug" --version="$ver"
-              fi
-            fi
-          done < /tmp/plugin-lock.txt
-EOSSH
-
-          # 2) 有効化リストに合わせてオン/オフを揃える
+          ssh -p ${{ secrets.X_PORT }} -i ~/.ssh/id_xserver ${{ secrets.X_USER }}@${{ secrets.X_HOST }} \
+            "echo $SCRIPT1 | base64 -d > /tmp/install-plugins.sh && chmod +x /tmp/install-plugins.sh"
+          
+          ssh -p ${{ secrets.X_PORT }} -i ~/.ssh/id_xserver ${{ secrets.X_USER }}@${{ secrets.X_HOST }} \
+            "echo $SCRIPT2 | base64 -d > /tmp/activate-plugins.sh && chmod +x /tmp/activate-plugins.sh"
+          
+          # 1) プラグインをインストール/更新
+          ssh -p ${{ secrets.X_PORT }} -i ~/.ssh/id_xserver ${{ secrets.X_USER }}@${{ secrets.X_HOST }} \
+            "/tmp/install-plugins.sh '${{ secrets.WP_PATH_STAGING }}'"
+          
+          # 2) 有効化リストを転送
           CONTENT=$(base64 -w0 plugin-activate.txt)
           ssh -p ${{ secrets.X_PORT }} -i ~/.ssh/id_xserver ${{ secrets.X_USER }}@${{ secrets.X_HOST }} \
-            "echo $CONTENT | base64 -d > /tmp/plugin-activate.txt && wc -l /tmp/plugin-activate.txt"
+            "echo $CONTENT | base64 -d > /tmp/plugin-activate.txt"
           
+          # 3) プラグインを有効化
           ssh -p ${{ secrets.X_PORT }} -i ~/.ssh/id_xserver ${{ secrets.X_USER }}@${{ secrets.X_HOST }} \
-            bash -s -- "${{ secrets.WP_PATH_STAGING }}" <<'EOSSH'
-          set -e
-          WP_PATH="$1"
-          cd "$WP_PATH"
-          
-          mapfile -t desired < <(grep -vE '^\s*#|^\s*$' /tmp/plugin-activate.txt | sort -u)
-          mapfile -t installed < <(wp --path="$WP_PATH" plugin list --field=name | sort -u)
-          
-          for p in "${installed[@]}"; do
-            wp --path="$WP_PATH" plugin deactivate "$p" 2>/dev/null || true
-          done
-          
-          for p in "${desired[@]}"; do
-            wp --path="$WP_PATH" plugin activate "$p" 2>/dev/null || true
-          done
-EOSSH
+            "/tmp/activate-plugins.sh '${{ secrets.WP_PATH_STAGING }}'"
+            
