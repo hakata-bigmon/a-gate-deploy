@@ -50,46 +50,54 @@ jobs:
             ./theme/ \
             "${{ secrets.X_USER }}@${{ secrets.X_HOST }}:${{ secrets.THEME_PATH_STAGING }}/"
 
-      # ⑤ WPパスの健全性チェック（任意だけど安心）
+      # ⑤ WPパスの健全性チェック（任意だが安心）
       - name: Sanity check WP path
         run: |
           ssh -p ${{ secrets.X_PORT }} -i ~/.ssh/id_xserver \
             ${{ secrets.X_USER }}@${{ secrets.X_HOST }} \
             "ls -la '${{ secrets.WP_PATH_STAGING }}' && wp --path='${{ secrets.WP_PATH_STAGING }}' core is-installed && echo 'WP OK'"
-
-      # ⑥ WP-CLIでロック適用（--path で確実にそのWPを操作）
+      
+      # ⑥ リモートに apply-plugins.sh を作って実行（heredoc問題を回避）
       - name: Apply plugin lock (STG)
         run: |
+          # 1) ローカルでスクリプト作成（可読性のため）
+          cat > apply-plugins.sh <<'LOCALSCRIPT'
+          set -e
+          WP_PATH="$1"
+          cd "$WP_PATH"
+      
+          # ロックに書いたプラグインをインストール/更新/有効化
+          while IFS= read -r line; do
+            [[ -z "$line" || "$line" =~ ^# ]] && continue
+            slug="${line%@*}"; ver="${line#*@}"
+            if [[ "$ver" =~ \.zip$ || "$ver" =~ ^https?:// ]]; then
+              wp --path="$WP_PATH" plugin install "$ver" --force --activate
+            else
+              if wp --path="$WP_PATH" plugin is-installed "$slug"; then
+                wp --path="$WP_PATH" plugin update "$slug" --version="$ver" --force
+                wp --path="$WP_PATH" plugin activate "$slug" || true
+              else
+                wp --path="$WP_PATH" plugin install "$slug" --version="$ver" --activate
+              fi
+            fi
+          done < /tmp/plugin-lock.txt
+      
+          # ロック外は無効化（削除は慣れてから）
+          mapfile -t keep < <(grep -vE '^\s*#|^\s*$' /tmp/plugin-lock.txt | sed 's/@.*$//' | sort -u)
+          mapfile -t installed < <(wp --path="$WP_PATH" plugin list --field=name | sort -u)
+          for p in "${installed[@]}"; do
+            skip=
+            for k in "${keep[@]}"; do [[ "$p" == "$k" ]] && skip=1 && break; done
+            [[ -n "$skip" ]] && continue
+            wp --path="$WP_PATH" plugin deactivate "$p" || true
+          done
+          LOCALSCRIPT
+      
+          # 2) スクリプトをbase64で送り、リモートに配置
+          B64=$(base64 -w0 apply-plugins.sh)
           ssh -p ${{ secrets.X_PORT }} -i ~/.ssh/id_xserver ${{ secrets.X_USER }}@${{ secrets.X_HOST }} \
-            bash -s -- "${{ secrets.WP_PATH_STAGING }}" <<'EOSSH'
-              set -e
-              WP_PATH="$1"
-              cd "$WP_PATH"
-
-              # ロックに書いたプラグインをインストール/更新/有効化
-              while IFS= read -r line; do
-                [[ -z "$line" || "$line" =~ ^# ]] && continue
-                slug="${line%@*}"; ver="${line#*@}"
-                if [[ "$ver" =~ \.zip$ || "$ver" =~ ^https?:// ]]; then
-                  wp --path="$WP_PATH" plugin install "$ver" --force --activate
-                else
-                  if wp --path="$WP_PATH" plugin is-installed "$slug"; then
-                    wp --path="$WP_PATH" plugin update "$slug" --version="$ver" --force
-                    wp --path="$WP_PATH" plugin activate "$slug" || true
-                  else
-                    wp --path="$WP_PATH" plugin install "$slug" --version="$ver" --activate
-                  fi
-                fi
-              done < /tmp/plugin-lock.txt
-
-              # ロック外は無効化（削除は慣れてから）
-              mapfile -t keep < <(grep -vE '^\s*#|^\s*$' /tmp/plugin-lock.txt | sed 's/@.*$//' | sort -u)
-              mapfile -t installed < <(wp --path="$WP_PATH" plugin list --field=name | sort -u)
-              for p in "${installed[@]}"; do
-                skip=
-                for k in "${keep[@]}"; do [[ "$p" == "$k" ]] && skip=1 && break; done
-                [[ -n "$skip" ]] && continue
-                wp --path="$WP_PATH" plugin deactivate "$p" || true
-              done
-            EOSSH
-          
+            "echo $B64 | base64 -d > /tmp/apply-plugins.sh && chmod +x /tmp/apply-plugins.sh && head -n 3 /tmp/apply-plugins.sh"
+      
+          # 3) 実行（WP_PATH_STAGING を引数で渡す）
+          ssh -p ${{ secrets.X_PORT }} -i ~/.ssh/id_xserver ${{ secrets.X_USER }}@${{ secrets.X_HOST }} \
+            "/tmp/apply-plugins.sh '${{ secrets.WP_PATH_STAGING }}'"
