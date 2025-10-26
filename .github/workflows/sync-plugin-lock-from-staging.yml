@@ -1,0 +1,61 @@
+name: Sync plugin-lock from STAGING
+
+on:
+  workflow_dispatch: {}
+  # ↑手動ボタン。必要ならスケジュールも可：
+  # schedule:
+  #   - cron: "0 0 * * *"  # UTCで毎日
+
+permissions:
+  contents: write  # plugin-lock.txt をコミットするため
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prepare SSH
+        run: |
+          set -e
+          install -m 700 -d ~/.ssh
+          printf "%s" "${{ secrets.X_SSH_KEY }}" | tr -d '\r' > ~/.ssh/id_xserver
+          chmod 600 ~/.ssh/id_xserver
+          ssh-keyscan -p ${{ secrets.X_PORT }} ${{ secrets.X_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Export plugins from STAGING into /tmp on server
+        run: |
+          ssh -p ${{ secrets.X_PORT }} -i ~/.ssh/id_xserver ${{ secrets.X_USER }}@${{ secrets.X_HOST }} \
+            "wp --path='${{ secrets.WP_PATH_STAGING }}' plugin list --format=json > /tmp/plugins.json && \
+             php -r '
+             \$d=json_decode(file_get_contents(\"/tmp/plugins.json\"),true);
+             \$out=[];
+             foreach(\$d as \$p){
+               if(!empty(\$p[\"version\"]) && \$p[\"version\"]!=\"unknown\"){
+                 \$out[]=\$p[\"name\"].\"@\".\$p[\"version\"];
+               }
+             }
+             echo implode(PHP_EOL,array_unique(\$out));
+             ' > /tmp/plugin-lock.txt && head -n 5 /tmp/plugin-lock.txt"
+
+      - name: Download plugin-lock.txt to runner
+        run: |
+          # scpが苦手な環境でも確実に拾えるようにcat→base64で回収
+          ssh -p ${{ secrets.X_PORT }} -i ~/.ssh/id_xserver ${{ secrets.X_USER }}@${{ secrets.X_HOST }} \
+            "base64 -w0 /tmp/plugin-lock.txt" > /tmp/lock.b64
+          base64 -d /tmp/lock.b64 > plugin-lock.txt
+          echo "----- plugin-lock.txt (first lines) -----"
+          head -n 5 plugin-lock.txt || true
+
+      - name: Commit & push if changed
+        run: |
+          set -e
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- plugin-lock.txt; then
+            echo "No changes in plugin-lock.txt"
+            exit 0
+          fi
+          git add plugin-lock.txt
+          git commit -m "chore(lock): sync plugin-lock from staging"
+          git push
