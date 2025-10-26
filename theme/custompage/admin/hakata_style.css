@@ -1,0 +1,2669 @@
+@media print {
+    a[href]:after {
+        content: none !important;
+    }
+}
+
+.radio-readonly {
+    appearance: none;
+    pointer-events: none;
+}
+
+    .radio-readonly::before {
+        content: '〇';
+        color: #c0c0c0;
+    }
+
+    .radio-readonly:checked::before {
+        content: '●';
+        color: #808080;
+    }
+
+
+.text-readonly{
+
+}
+
+.admin-menu-contens {
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 100px;
+}
+
+.admin-menu-flex {
+    display: flex;
+    justify-content: center;
+}
+
+.admin-menu-btn {
+    width: 300px;
+    height: 60px;
+    font-size: 15px;
+    color: black;
+    font-weight: bold;
+    border-radius: 10px;
+    background-color: aliceblue;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px auto;
+    margin-bottom: 0px;
+    margin-top: 15px;
+}
+
+    .admin-menu-btn a {
+        color: black;
+        font-weight: 600;
+    }
+
+.admin-menu-box {
+    position: relative;
+    padding: 1rem;
+    border: 3px solid black;
+    background-color: white;
+    border-radius: 8px;
+    margin-bottom: 50px;
+}
+
+    .admin-menu-box::before {
+        position: absolute;
+        top: -20px;
+        left: -4px;
+        padding: 0.5rem;
+        background-color: cornflowerblue;
+        color: white;
+        content: attr(data-title);
+        min-width: 160px;
+        text-align: center;
+        font-weight: 600;
+    }
+/* ヘッダーエリアをビューポートの幅いっぱいに拡張 */
+.header-area {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    box-sizing: border-box;
+    background-color: #85c1d5; /* Match your header's color */
+}
+
+/* ヘッダーメニューも幅いっぱいに拡張 */
+.header-menu {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    box-sizing: border-box;
+    background-color: #85c1d5; /* Match your header's color */
+    position: relative;
+    z-index: 100;
+}
+
+/* ラッパーコンテナのオーバーフローを適切に処理 */
+#page {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+}
+
+/* メニューが開いている時のメニュー項目の間隔を適切に設定 */
+.header-menu-flex.open {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+/* 非常に幅の広いコンテンツテーブルに対応 */
+.site-main {
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+/***********************************************************
+                除霊メニュー
+************************************************************/
+.admin-exorcism-button-area {
+    max-width: 1030px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 50px;
+    margin-bottom: 100px;
+}
+
+.admin-exorcism-menu-title-box {
+    border-bottom: 3px solid #B0B0B0;
+}
+.admin-exorcism-menu-title {
+    color: black;
+    font-size: 36px;
+}
+
+
+.admin-exorcism-button-type-area {
+    margin-bottom: 50px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    border: 1px solid black;
+    border-radius: 8px;
+    padding-left: 30px;
+    padding-bottom: 12px;
+}
+
+
+    .admin-exorcism-button-type-area::after {
+        content: "";
+        display: block;
+        width: 33%;
+    }
+
+
+.admin-exorcism-button-type-title {
+    margin-top: 30px;
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 24px;
+    color: black;
+    font-weight: 600;
+}
+
+.admin-exorcism-menu-button-box {
+    flex: 1 1 calc(33.33% - 10px);
+    box-sizing: border-box;
+    margin-top: 10px;
+}
+
+
+
+.admin-exorcism-menu-button {
+    width: 300px;
+    height: 70px;
+    font-size: 15px;
+    color: black;
+    font-weight: bold;
+    border-radius: 10px;
+    background-color: aliceblue;
+    cursor: pointer;
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+.admin-exorcism-menu-status-box {
+    margin-top: 50px;
+    /* width: 100%; */
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.admin-exorcism-menu-status-button {
+    width: 100%;
+    /* max-width: 80%; */
+    height: 60px;
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
+    border-radius: 10px;
+    background-color: darkseagreen;
+    cursor: pointer;
+}
+
+.admin-profile-menu-button-box {
+    margin-top: 50px;
+    /* width: 100%; */
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+table.admin-exorcism-price-table {
+    width: 100%;
+}
+
+table.admin-exorcism-price-table tr{
+}
+
+table.admin-exorcism-price-table th{
+}
+
+
+    table.admin-exorcism-price-table td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+    }
+
+
+.admin-exorcism-price-button-area {
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.admin-exorcism-price-button {
+    line-height: 20px;
+    border-radius: 18px;
+    color: white;
+    font-size: 21px;
+    background-color: red;
+    text-align: center;
+    height: 55px;
+    font-weight: bold;
+    border: 0;
+    width: 100%;
+    cursor: pointer;
+   
+}
+
+@media screen and (max-width: 640px) {
+    .admin-exorcism-button-type-area {
+        text-align: center;
+    }
+}
+
+/***********************************************************
+              浄霊ステータス・質問
+************************************************************/
+
+.admin-exorcism-area {
+    margin-top: 100px;
+}
+
+.admin-spirit-edit-area {
+    margin-top: 50px;
+}
+
+.admin-spirit-edit-box {
+    border-bottom: 1px solid #bfbfbf;
+    padding-bottom: 30px;
+    margin-top: 20px;
+}
+
+.admin-spirit-edit-flex {
+    display: flex;
+}
+
+.admin-spirit-edit-title {
+    min-width: 160px;
+    color: black;
+    font-size: 20px;
+    width: 160px;
+    text-align: center;
+    padding-top: 3px;
+    font-weight: bold;
+}
+
+.admin-spirit-edit-input-box {
+    width: 100%;
+    max-width: 610px;
+}
+
+.admin-spirit-edit-input-area [type="text"] {
+    width: 100%;
+    font-size: 12px;
+    padding: 5px;
+    font-weight: bold;
+}
+
+.admin-spirit-edit-input-checkbox {
+    margin-left: 6px;
+    margin-top: 5px;
+}
+
+.admin-spirit-edit-button {
+    line-height: 20px;
+    border-radius: 5px;
+    color: white;
+    font-size: 14px;
+    background-color: red;
+    text-align: center;
+    height: 33px;
+    font-weight: bold;
+    border: 0;
+    width: 100%;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.admin-spirit-edit-input-area {
+    width: 100%;
+    height: auto;
+    max-width: 600px;
+    margin-left: 10px;
+}
+
+
+.admin-spirit-edit-input-color-area {
+    margin-top: 10px;
+    display: flex;
+}
+
+.admin-spirit-edit-input-text-color {
+    margin-left: 10px;
+}
+
+.admin-spirit-edit-input-back-color {
+    margin-left: 10px;
+    border: 1px solid black;
+    width: 80px;
+    text-align: center;
+    -webkit-text-stroke: white;
+    color: black;
+    font-weight: bold;
+}
+
+.admin-spirit-edit-inputbutton-area {
+    margin-left: 30px;
+    min-width: 150px;
+}
+
+.admin-spirit-edit-input-str {
+    color: black;
+    font-weight: bold;
+    text-align: center;
+    font-size: 15px;
+    padding-top: 6px;
+}
+
+
+
+.admin-spirit-edit-updown {
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+}
+
+.admin-spirit-edit-up {
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+}
+
+.admin-spirit-edit-row {
+    background-color: #f7f7f7;
+}
+
+.admin-spirit-edit-down {
+    
+}
+
+
+.admin-spirit-edit-list-id {
+    width: 60px;
+    text-align: center;
+}
+
+
+.admin-spirit-edit-list-title {
+    color: black;
+    font-weight: bold;
+    margin-left: 10px;
+    white-space: normal;
+    text-align: left;
+}
+
+
+.admin-spirit-edit-list-edit-button {
+    width: 100%;
+    border-radius: 5px;
+    border: 0;
+    background-color: #2B4054;
+    color: white;
+    height: 52px;
+    cursor: pointer;
+    font-size: 24px;
+}
+
+
+.admin-spirit-edit-list-delete-button {
+    width: 100%;
+    border-radius: 5px;
+    border: 0;
+    background-color: #F42133;
+    color: white;
+    height: 28px;
+    cursor: pointer;
+}
+
+table.adminSpiritEditTable {
+    width: 100%;
+    margin-top: 50px;
+}
+
+
+    table.adminSpiritEditTable tr {
+        height: 50px;
+    }
+
+
+    table.adminSpiritEditTable th {
+        background-color: aliceblue;
+    }
+
+
+table.adminSpiritEditTable td{
+}
+
+.admin-spirit-return-button-area {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.admin-spirit-return-button {
+    background-color: #b2b2b2;
+    border: 0;
+    border-radius: 5px;
+    width: 200px;
+    height: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+}
+
+.admin-spirit-edit-err-etr {
+    text-align: center;
+    margin-top: 30px;
+    color: red;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.admin-spirit-edit-list-add-text {
+    font-size: 12px;
+    color: black;
+    margin-left: 10px;
+    white-space: normal;
+    margin-top: 10px;
+    text-align: left;
+}
+
+.admin-spirit-edit-type-str {
+    font-size: 12px;
+}
+
+
+.admin-spirit-edit-select-area {
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+.admin-spirit-edit-input-add-area {
+    margin-left: 10px;
+    margin-top: 20px;
+}
+
+
+.admin-spirit-edit-input-add-area-checkbox {
+    margin-left: 10px;
+    margin-top: 20px;
+}
+
+.admin-spirit-edit-input-add-title {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.admin-spirit-edit-input-add-box {
+    margin-top: 10px;
+}
+
+
+    .admin-spirit-edit-input-add-box [type="text"] {
+        width: 100%;
+    }
+
+@media screen and (max-width: 1030px) {
+    .admin-spirit-edit-flex {
+        display: block;
+    }
+
+    .admin-spirit-edit-title {
+        width: 100%;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+
+    .admin-spirit-edit-box [type="text"] {
+        margin-left: 0;
+       
+    }
+
+    .admin-spirit-edit-button {
+        height: 42px;
+        font-size: 19px;
+        cursor: pointer;
+    }
+
+
+    .admin-spirit-edit-input-area {
+        height: auto;
+        max-width: 1000px;
+        margin-top: 10px;
+        width: 97%;
+    }
+
+    .admin-spirit-edit-inputbutton-area {
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 15px;
+        cursor: pointer;
+    }
+}
+
+
+/***********************************************************
+             Footer
+************************************************************/
+
+.footer-area {
+    height: 100px;
+    border-top: 1px solid #808080;
+    background: #8e24aa;
+
+	padding: 38px 0 24px 0;
+
+	text-align: center;
+
+	color: #fff;
+
+	margin-top: 40px;
+   
+}
+
+.footer-box{
+
+}
+
+.footer-text {
+    text-align: center;
+    margin-top: 30px;
+    color: white;
+    font-weight: bold;
+}
+
+
+/***********************************************************
+             header
+************************************************************/
+.header-area {
+    height: 60px;
+    background-color: #9fcfdf;
+    border-bottom: 1px solid #808080;
+}
+
+.header-menu-flex {
+    display: flex;
+    
+}
+.header-menu-area {
+}
+
+.header-menu-box {
+    max-width: 300px;
+    width: 100%;
+    background-color: #9fcfdf;
+    height: 50px;
+    border: 1px solid #808080;
+    display: flex;
+    justify-content: center; /* 水平方向に中央揃え */
+    align-items: center; /* 垂直方向に中央揃え */
+}
+
+.header-menu-link {
+    width: 100%;
+    height: 100%;
+}
+
+
+.header-menu-box a {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+
+
+/***********************************************************
+                入力フォーム設定
+************************************************************/
+
+.admin-inputcustomize-area{
+
+}
+
+.admin-inputcustomize-note-area {
+    font-size: 18px;
+    text-align: center;
+    margin-top: 50px;
+    color: black;
+    font-weight: bold;
+}
+
+.admin-inputcustomize-box {
+    margin-top: 60px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.admin-inputcustomize-title {
+    margin-bottom: 8px;
+    font-size: 26px;
+    font-weight: bold;
+    text-align: center;
+    color: black;
+}
+
+.admin-inputcustomize-sub-title {
+    font-size: 16px;
+    margin-top: 5px;
+}
+
+.admin-inputcustomize-text-area {
+    text-align: center;
+}
+
+.admin-inputcustomize-message-area {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    border-top: 3px dotted red;
+    border-bottom: 3px dotted red;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: darkmagenta;
+}
+
+.admin-inputcustomize-submit-area {
+    margin-top: 50px;
+    text-align: center;
+}
+
+.admin-spirit-submit-button {
+    width: 400px;
+    height: 45px;
+    border-radius: 13px;
+    font-size: 25px;
+    font-weight: bold;
+    color: white;
+    background-color: red;
+    border: 0;
+    cursor: pointer;
+}
+
+.admin-inputcustomize-save-area {
+    text-align: center;
+    margin-top: 80px;
+    font-size: 30px;
+    color: red;
+}
+
+.admin-inputcustomize-input-tag-area {
+    margin-top: 30px;
+}
+
+.admin-inputcustomize-input-tag-title {
+    text-align: center;
+    font-weight: bold;
+}
+
+.admin-inputcustomize-input-tag {
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 14px;
+}
+
+.admin-preview-button-area {
+    margin-top: 10px;
+    width: 100%;
+    text-align: right;
+}
+
+
+.admin-preview-button-flex {
+    /* text-align: right; */
+    display: flex;
+    justify-content: center;
+}
+
+.admin-preview-button-flex-box {
+    
+}
+
+.admin-preview-button {
+    width: 250px;
+    height: 46px;
+    border-radius: 10px;
+    background-color: lemonchiffon;
+    font-size: 16px;
+    color: black;
+    font-weight: bold;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.admin-inputcustomize-note-add-area {
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+}
+
+.AreaAddButton {
+    width: 180px;
+    height: 32px;
+    border-radius: 8px;
+    font-weight: bold;
+    background-color: floralwhite;
+}
+
+.AreaRemoveButton {
+    width: 180px;
+    height: 32px;
+    border-radius: 8px;
+    font-weight: bold;
+}
+/***********************************************************
+                入力フォーム設定
+************************************************************/
+.input-form-area {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.input-form-contens {
+    max-width: 1030px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+    padding-bottom: 30px;
+}
+
+.input-form-header-img{
+
+}
+
+.input-form-header-img img{
+
+}
+
+.input-form-main {
+    margin-top: 50px;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    box-shadow: 0 3px 10px #ccc;
+    padding-top: 30px;
+    padding-left: 35px;
+    padding-right: 35px;
+    padding-bottom: 50px;
+}
+
+.input-form-title {
+    border-bottom: 6px solid #c3bebe;
+    padding-bottom: 10px;
+}
+
+.input-form-title-str {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 26px;
+    font-weight: bold;
+    color: black;
+}
+
+
+
+.input-form-text-box {
+    margin-top: 50px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.input-form-text {
+    font-size: 16px;
+    font-family: 'Noto Sans JP', sans-serif;
+    color: black;
+    line-height: 1.4;
+}
+
+.input-form-flow-box {
+    border: 1px solid #c3bebe;
+    margin-top: 60px;
+    max-width: 740px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 15px;
+}
+
+.input-form-flow-title {
+    border-bottom: 2px solid #c3bebe;
+    padding-bottom: 10px;
+}
+
+.input-form-flow-title-str {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 26px;
+    font-weight: bold;
+    color: black;
+}
+
+.input-form-flow-text {
+    text-align: left;
+    padding-top: 30px;
+    font-size: 14px;
+    font-family: 'Noto Sans JP', sans-serif;
+    color: black;
+}
+
+.input-form-contact-str {
+    font-size: 16px;
+    font-family: 'Noto Sans JP', sans-serif;
+    color: black;
+    font-weight: bold;
+}
+
+.input-form-note-area {
+    margin-top: 30px;
+    margin-bottom: 50px;
+}
+
+.input-form-note-area-title {
+    font-family: 'Noto Sans JP', sans-serif;
+    color: red;
+    font-weight: bold;
+    font-size: 40px;
+    margin-top: 50px;
+}
+
+.input-form-note-area-title-str {
+    margin-top: 30px;
+}
+
+.input-form-note-title-box {
+    margin-top: 80px;
+}
+
+.input-form-note-title-str {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: bold;
+    color: black;
+    font-size: 20px;
+}
+
+.input-form-note-box {
+    margin-top: 30px;
+    border-bottom: 2px dotted #808080;
+    padding-bottom: 30px;
+}
+
+.input-note-text {
+    font-family: 'Noto Sans JP', sans-serif;
+    color: black;
+    font-size: 16px;
+}
+
+.input-send-button-area {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 30px;
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.input-send-button {
+    color: white;
+    width: 100%;
+    height: 60px;
+    font-size: 24px;
+    font-weight: bold;
+    box-shadow: 0 6px #730000;
+    background: linear-gradient(#F10000, #C00000);
+}
+
+    .input-send-button:hover {
+        background: red;
+        transform: translateY(5px);
+        box-shadow: 0 0 0 #333;
+    }
+
+.admin-inputcustomize-text-area {
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: black;
+}
+
+
+table.admin-input-personaldata-table {
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    color: black;
+}
+
+
+
+.input-form-id-box {
+    margin-top: 50px;
+}
+
+
+.input-form-id-flex {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.input-form-id {
+    font-size: 18px;
+    font-weight: 800;
+    color: red;
+}
+
+.input-form-id-add {
+    margin-top: 20px;
+    font-size: 12px;
+}
+
+table.admin-input-personaldata-table tr {
+}
+
+    table.admin-input-personaldata-table tr:nth-child(odd) td {
+        background: #eee;
+    }
+    
+    table.admin-input-personaldata-table th {
+        border: 1px solid black;
+        background-color: darkseagreen;
+        color: white;
+    }
+
+
+
+    table.admin-input-personaldata-table td {
+        border: 1px solid black;
+        text-align: center;
+    }
+
+/***********************************************************
+                サンクスページ設定
+************************************************************/
+.admin-thank-customize-detail-area {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.admin-thank-customize-detail-text {
+    font-size: 14px;
+    font-weight: bold;
+    color: red;
+}
+
+.admin-thank-customize-detail-button-area{
+
+}
+
+.admin-thank-customize-detail-button {
+    width: 250px;
+    height: 40px;
+    border-radius: 11px;
+    border: 0;
+    margin-top: 12px;
+    font-weight: bold;
+    background-color: #9fcfdf;
+    font-size: 16px;
+    color: white;
+}
+
+.admin-thanks-phot-note-area {
+    font-size: 12px;
+    font-weight: bold;
+    color: red;
+    text-align: center;
+}
+
+/***********************************************************
+               URLリスト
+************************************************************/
+
+table.admin-url-list-table {
+    margin-top: 50px;
+    border: 1px solid black;
+    width: 100%;
+}
+
+    table.admin-url-list-table tr:nth-child(odd) td {
+        background: #f3f3f3;
+    }
+
+    table.admin-url-list-table tr:nth-child(odd) th {
+        background: #f3f3f3;
+    }
+
+table.admin-url-list-table tr{
+}
+
+
+    table.admin-url-list-table th {
+        border: 1px solid black;
+        text-align: left;
+        width: 266px;
+        padding: 5px;
+    }
+    table.admin-url-list-table td {
+        border: 1px solid black;
+        padding-left: 10px;
+    }
+
+
+
+/***********************************************************
+               入力フォーム
+************************************************************/
+
+.orderform-area {
+    margin-top: 100px;
+}
+
+.orderform-cointens {
+    margin-top: 50px;
+}
+
+.orderform-question-box {
+    padding-left: 10px;
+    padding-right: 10px;
+   
+  /*  border-bottom: 1px dotted #959595;*/
+   
+}
+
+.orderform-question-title {
+    text-align: left;
+    font-weight: bold;
+    font-size: 18px;
+    font-family: 'Noto Sans JP', sans-serif;
+    color: black;
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+}
+
+.orderform-question-title-left {
+    /*width: 50px;*/
+    text-align: center;
+}
+
+.orderform-question-title-right {
+    flex: 1; /* 可変幅 */
+    word-wrap: break-word; /* 文字の折り返し */
+    overflow-wrap: break-word; /* 文字の折り返し */
+    padding-left: 8px;
+}
+
+.orderform-input-img{
+
+}
+
+
+    .orderform-input-img img {
+        max-width: 300px;
+        width: 100%;
+    }
+
+
+
+.orderform-question-title-required-box {
+    background-color: red;
+    width: 50px;
+    text-align: center;
+    color: white;
+    font-weight: 500;
+    font-size: 14px;
+    border-radius: 5px;
+    max-height: 26px;
+}
+
+.orderform-return-alert-text {
+    margin-top: 15px;
+    font-size: 14px;
+    color: red;
+    font-weight: 700;
+}
+
+.orderform-question-target-required-box {
+    background-color: darkblue;
+    width: 50px;
+    text-align: center;
+    color: white;
+    font-weight: 500;
+    font-size: 14px;
+    border-radius: 5px;
+    max-height: 26px;
+}
+
+.orderform-input-textbox {
+    text-align: left;
+}
+
+
+    .orderform-input-textbox [type="text"] {
+        width: 90%;
+        border: 1px solid #000; /* ボーダーを再度指定 */
+    }
+
+    .orderform-input-textbox [type="number"] {
+        width: 115px;
+        border: 1px solid #000; /* ボーダーを再度指定 */
+    }
+
+
+.orderform-input-texarea {
+    text-align: left;
+   
+}
+
+
+.orderform-input-alert-text {
+    text-align: left;
+    font-size: 12px;
+    font-weight: bold;
+    color: #959595;
+}
+
+.orderform-input-calendar {
+    text-align: left;
+    display: flex;
+}
+
+.order-calendar-placeholder {
+    margin-left: 5px;
+    margin-right: 15px;
+   
+}
+.orderform-input-calendar-message {
+    text-align: left;
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 5px;
+    color: black;
+}
+
+.orderform-input-textbox-placeholder-area {
+    display: none;
+    margin-top: 5px;
+}
+
+.orderform-input-name-textbox {
+    text-align: left;
+    display: flex;
+}
+
+.orderform-input-name-textbox-str {
+    margin-top: 2px;
+}
+
+.orderform-input-name-textbox-str-box {
+    display: flex;
+    margin-right: 20px;
+}
+
+    .orderform-input-name-textbox-str-box [type="text"] {
+        border: 1px solid #000; /* ボーダーを再度指定 */
+    }
+
+    .orderform-input-mail {
+        text-align: left;
+    }
+
+
+        .orderform-input-mail [type="mail"] {
+            width: 250px;
+            border: 1px solid #000; /* ボーダーを再度指定 */
+        }
+
+.orderform-input-readonly {
+    margin-top: 2px;
+    font-weight: 600;
+    color: black;
+}
+
+.orderform-input-post-title {
+    text-align: left;
+    font-size: 18px;
+    font-weight: 600;
+    color: black;
+    margin-top: 18px;
+}
+
+
+
+.orderform-input-readonly-question {
+    font-weight: 600;
+    color: black;
+    font-size: 18px;
+    text-align: left;
+}
+
+.orderform-input-readonly-textarea {
+    text-align: left;
+    border: 1px dotted gray;
+    min-height: 100px;
+    padding: 10px;
+    color: black;
+    font-weight: 600;
+    border-radius: 15px;
+}
+
+
+.orderform-question-line {
+    height: 30px;
+    width: 100%;
+    border-top: 1px dotted #959595;
+    margin-top: 20px;
+}
+
+.error-message {
+    color: red;
+    margin-top: 4px;
+    text-align: left;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.orderform-input-tel {
+    text-align: left;
+}
+
+    .orderform-input-tel [type="text"] {
+        border: 1px solid #000; /* ボーダーを再度指定 */
+        width: 60px;
+    }
+
+.orderform-input-radio {
+    text-align: left;
+}
+
+.orderform-return-cointens {
+    margin-top: 30px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.orderform-return-send-area {
+    width: 100%;
+    height: 50px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+
+.orderform-return-send {
+    width: 100%;
+    height: 50px;
+    font-size: 24px;
+    font-weight: bold;
+    box-shadow: 0 6px #292828;
+    background: linear-gradient(#e9e3e3, #a7a4a4);
+}
+
+    .orderform-return-send:hover {
+        background: #fff5f5;
+        transform: translateY(5px);
+        box-shadow: 0 0 0 #333;
+    }
+
+.input-form-registered-err {
+    margin-top: 100px;
+    margin-bottom: 100px;
+    font-size: 24px;
+    font-weight: bold;
+    color: black;
+}
+
+    .input-form-registered-err a {
+        color: darkmagenta;
+        border-bottom: 1px solid darkmagenta;
+    }
+
+.orderform-input-select {
+    text-align: left;
+}
+
+
+    .orderform-input-select select {
+        font-size: 20px;
+        border: 1px solid black;
+    }
+
+.orderform-input-post-no {
+    text-align: left;
+}
+
+
+    .orderform-input-post-no [type="text"] {
+        width: 50px;
+    }
+
+.target_button {
+    border-radius: 8px;
+    border: 1px solid black;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: darkgray;
+    color: white;
+}
+
+
+.orderform-remote-question-area {
+    margin-top: 15px;
+    margin-bottom: 30px;
+}
+
+
+.orderform-remote-question-target-name-text {
+    font-size: 24px;
+    font-weight: 700;
+    color: black;
+}
+
+.orderform-remote-question-target-input-area {
+    margin-top: 10px;
+    display: flex;
+}
+
+.orderform-remote-question-target-name {
+    font-size: 20px;
+    margin-top: 4px;
+}
+.orderform-remote-question-target-birth {
+    margin-left: 30px;
+}
+
+.orderform-remote-question-target-date-area {
+    margin-top: 10px;
+    display: flex;
+    /*width: 400px;*/
+    justify-content: start;
+    flex-wrap: wrap;
+}
+
+.orderform-remote-question-target-execution-date-label {
+    width: 200px;
+}
+
+.orderform-remote-question-target-execution-button-box {
+    width: 100px;
+    height: 30px;
+    font-size: 16px;
+    background-color: whitesmoke;
+    border: 1px solid black;
+    color: black;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 5px;
+}
+
+.orderform-remote-question-target-execution-date {
+}
+
+.orderform-remote-edit-button {
+    width: 100px;
+    border: 1px solid black;
+    text-align: center;
+    border-radius: 3px;
+    color: black;
+    background-color: whitesmoke;
+    font-size: 16px;
+}
+
+
+.orderform-target-select-area {
+    margin-bottom: 30px;
+    margin-left: 10px;
+    margin-top: 30px;
+}
+
+.orderform-target-select-flex {
+    
+}
+
+.orderform-target-select-save-tex {
+    text-align: left;
+    margin-top: 10px;
+    color: red;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.orderform-target-select{
+
+}
+
+
+.orderform-target-selectbox {
+    font-size: 16px;
+    min-width: 150px;
+    padding: 3px;
+}
+
+.orderform-target-select-button {
+    margin-left: 10px;
+}
+
+
+.user-orderform-button-area {
+    margin-top: 100px;
+}
+
+.user-orderform-button {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.user-orderform-button-text {
+    font-size: 14px;
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+.user-orderform-submit-text {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+
+@media screen and (min-width: 641px) {
+    .orderform-target-select-flex {
+        display: flex;
+    }
+}
+
+@media screen and (max-width: 640px) {
+
+    .orderform-target-select {
+        text-align: left;
+        margin-left: 10px;
+    }
+
+    .target_button {
+        margin-top: 10px;
+    }
+
+    .user-orderform-button-text {
+        font-size: 10px;
+       
+    }
+
+    .user-orderform-submit-text {
+       
+        font-size: 10px;
+      
+    }
+
+
+    .input-form-note-area-title {
+        font-size: 32px;
+    }
+
+    .orderform-question-title-right {
+        font-size: 14px;
+    }
+
+
+    .orderform-question-title-required-box {
+      
+        font-size: 12px;
+      
+        
+    }
+
+    .orderform-question-title-left {
+        width: 0px;
+    }
+
+    .orderform-input-calendar-message {
+        margin-top: 10px;
+    }
+
+
+    .order-calendar-placeholder {
+        margin-right: 10px;
+    }
+
+
+    .orderform-input-textbox-placeholder-area {
+        display: block;
+    }
+
+    .orderform-input-textbox [type="text"]::placeholder {
+        color: transparent; /* プレースホルダーを非表示にする */
+    }
+
+
+    .orderform-input-name-textbox {
+        display: block;
+    }
+
+    .orderform-input-name-textbox-str-box {
+        margin-bottom: 10px;
+    }
+}
+
+
+/***********************************************************
+              返信メールpreview
+************************************************************/
+
+.confirmationmail_preview_area {
+    max-width: 1030px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 100px;
+    color: black;
+    border: 1px solid black;
+}
+
+.confirmationmail_preview_title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+
+.confirmationmail_preview_contens {
+    margin-top: 50px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+
+.admin-spirit-delete-alert-text {
+    margin-bottom: 20px;
+    text-align: center;
+    color: red;
+}
+
+.admin-spirit-sheets-button-flex {
+    display: flex;
+    justify-content: space-between;
+}
+
+.admin-spirit-question-edit-button-area {
+    margin-top: 20px;
+    max-width: 300px;
+}
+
+
+.admin-spirit-question-edit-button {
+    background-color: cornsilk;
+    color: black;
+    width: 100%;
+    height: 35px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.admin-spirit-list-select-area {
+    margin-top: 30px;
+}
+
+.admin-spirit-list-select {
+    margin-top: 20px;
+}
+
+.admin-spirit-list-select-title {
+    font-size: 18px;
+    font-weight: 600;
+}
+/***********************************************************
+              浄霊シート表示
+************************************************************/
+.spirt_question_title {
+    margin-top: 10px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+/* モーダルの基本スタイル */
+.emark_img_modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* モーダルの中のコンテンツ */
+.emark_img_modal_content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    text-align: center;
+}
+
+    /* 画像スタイル */
+    .emark_img_modal_content img {
+        max-width: 100%;
+        height: auto;
+    }
+
+/* 閉じるボタン */
+.emark_img_close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+    .emark_img_close:hover,
+    .emark_img_close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+.admin-spirit-subtitle-center-box {
+    text-align: center;
+    width: 1200px;
+    border-bottom: 1px solid #B0B0B0;
+    margin-bottom: 30px;
+    margin-top: 100px;
+}
+/***********************************************************
+              その他とか
+************************************************************/
+.result-font-message {
+    font-size: 32px;
+    color: orangered;
+}
+/***********************************************************
+              浄霊一覧
+************************************************************/
+.admin-spritsheet-search-date {
+    display: flex;
+    margin-right: 20px;
+}
+
+.admin-spritsheet-search-flex {
+    display: flex;
+    margin-top: 20px;
+}
+
+.admin-spritsheet-search-ravel {
+    padding-top: 3px;
+    font-weight: 700;
+    color: black;
+}
+
+.admin-spritsheet-search-type {
+    display: flex;
+}
+
+.admin-spritsheet-search-submit-button {
+   
+}
+
+.admin-spritsheet-search-submit {
+    width: 300px;
+    border-radius: 8px;
+    font-size: 15px;
+    color: white;
+    font-weight: 600;
+    background-color: crimson;
+}
+
+.admin-spritsheet-search-reset {
+    margin-top: 20px;
+    width: 200px;
+    border-radius: 8px;
+    height: 35px;
+    background-color: aquamarine;
+    color: black;
+    font-weight: 900;
+}
+
+/***********************************************************
+              仮登録画面
+************************************************************/
+.admin-temporary-registration-file-post-area {
+    margin-top: 30px;
+    border: 4px solid aquamarine;
+    width: 1200px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.admin-temporary-registration-file-post-file{
+
+}
+
+.admin-temporary-registration-file-post-submit {
+    width: 200px;
+    border-radius: 10px;
+    height: 35px;
+    background-color: crimson;
+    color: white;
+    font-weight: 700;
+}
+
+.admin-temporary-registration-return-btn {
+    margin-top: 20px;
+}
+
+.admin-temporary-registration-post-area {
+    display: flex;
+}
+
+.admin-temporary-registration-new-post-area {
+    margin-top: 20px;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.admin-temporary-registration-new-post-submit {
+    width: 400px;
+    height: 50px;
+    border-radius: 18px;
+    font-size: 16px;
+    font-weight: 700;
+    color: black;
+    cursor: pointer;
+}
+.admin-temporary-registration-input-area {
+    margin-top: 30px;
+    max-width: 1030px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.admin-temporary-registration-check-post-submit {
+    width: 500px;
+    height: 56px;
+    border-radius: 15px;
+    font-size: 24px;
+    background-color: crimson;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.admin-temporary-registration-reedit-post-submit {
+    cursor: pointer;
+    margin-top: 50px;
+    width: 500px;
+    height: 56px;
+    border-radius: 15px;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.admin-temporary-registration-submit-center {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.admin-temporary-registration-updata-alert {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 24px;
+    color: red;
+    font-weight: 700;
+}
+
+.admin-temporary-registration-check-area {
+    /*margin-left: auto;
+    max-width: 1300px;
+    margin-right: auto;*/
+}
+
+.admin-temporary-registration-check-err-text {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.admin-temporary-registration-check-err-mes {
+    font-size: 15px;
+    font-weight: 700;
+    color: red;
+}
+
+.admin-temporary-registration-check-err-num {
+    margin-top: 30px;
+}
+
+.admin-temporary-registration-check-text {
+    margin-top: 80px;
+    font-size: 24px;
+    font-weight: 600;
+    color: black;
+    text-align: center;
+}
+
+.admin-temporary-registration-check-table {
+    margin-top: 30px;
+}
+
+
+.admin-temporary-registration-file-upload-submit {
+    width: 400px;
+    border-radius: 10px;
+    height: 50px;
+    background-color: crimson;
+    color: white;
+    font-weight: 700;
+    margin-top: 30px;
+    cursor: pointer;
+}
+
+
+
+.admin-temporary-registration-submit-delete-area {
+    text-align: center;
+    margin-top: 60px;
+}
+
+.admin-temporary-registration-delete-post-submit {
+    width: 500px;
+    height: 56px;
+    border-radius: 15px;
+    font-size: 24px;
+    background-color: gray;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.admin-temporary-search-area {
+    display: flex;
+}
+
+.admin-temporary-registration-all-delete {
+    font-size: 10px;
+    margin-top: 25px;
+    height: 40px;
+    border-radius: 13px;
+    background-color: gray;
+    color: white;
+}
+
+
+/***********************************************************
+              リモート浄霊一覧
+************************************************************/
+
+.admin-remote-sprit-text {
+    text-align: center;
+    font-size: 24px;
+    color: black;
+}
+
+.admin-make-remote-table-area{
+
+}
+
+table.admin-make-remote-table {
+    margin: auto;
+    border: 1px solid black;
+}
+
+
+    table.admin-make-remote-table th {
+        border: 1px solid black;
+        padding: 5px;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+
+    table.admin-make-remote-table td {
+        border: 1px solid black;
+        text-align: center;
+    }
+
+.admin-make-remote-reset-button {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.admin-make-remote-table-text {
+    text-align: center;
+    font-size: 16px;
+    color: black;
+    font-weight: 700;
+    margin-top: 30px;
+    margin-bottom: 5px;
+}
+
+.admin-make-remote-registration-button-area {
+    text-align: center;
+}
+
+.admin-make-remote-registration-button {
+    width: 500px;
+    height: 50px;
+    border-radius: 15px;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.admin-temporary-registration-search-area{
+
+}
+
+.admin-temporary-registration-search-flex {
+    display: flex;
+}
+
+.admin-temporary-registration-input-box {
+    margin-right: 30px;
+}
+
+.admin-temporary-registration-input-label {
+    font-size: 16px;
+    font-weight: 600;
+    color: black;
+}
+
+.admin-temporary-registration-input-flex {
+    display: flex;
+    margin-top: 5px;
+}
+
+.admin-remote-search-button {
+    width: 150px;
+    height: 30px;
+    border-radius: 8px;
+    margin-top: 24px;
+}
+
+
+.admin-remote-search-reset-button {
+    width: 150px;
+    height: 30px;
+    border-radius: 8px;
+    margin-top: 24px;
+    margin-left: 25px;
+    background-color: dimgrey;
+    color: white;
+}
+
+
+
+.admin-remote-make-arami-button {
+    width: 265px;
+    height: 45px;
+    border-radius: 8px;
+    margin-top: 24px;
+    margin-left: 0;
+    background-color: blue;
+    color: white;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.admin-remote-list-return-button {
+    width: 265px;
+    height: 45px;
+    border-radius: 8px;
+    margin-top: 24px;
+    margin-left: 0;
+    background-color: darkgray;
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.admin-remote-arami-button-flex {
+    display: flex;
+    justify-content: space-around;
+}
+
+.admin-remote-sprit-registration-setnumber-area {
+    margin-top: 60px;
+}
+
+.admin-remote-sprit-registration-setnumber-title {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.admin-remote-sprit-registration-setnumber-str {
+    font-size: 14px;
+    color: red;
+}
+
+table.admin-remote-sprit-registration-setnumber-table {
+    margin-top: 20px;
+}
+
+
+table.admin-remote-sprit-registration-setnumber-table tr{
+}
+
+
+    table.admin-remote-sprit-registration-setnumber-table td {
+        border: 1px solid black;
+        text-align: center;
+        padding: 5px;
+    }
+
+
+    table.admin-remote-sprit-registration-setnumber-table th {
+        border: 1px solid black;
+        text-align: center;
+        padding: 5px;
+        background-color: gainsboro;
+    }
+
+.admin-make-remote-reset-slots-only-area {
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    padding-left: 16px;
+}
+
+.admin-make-remote-reset-slots-only-flex {
+    display: flex;
+    width: 270px;
+}
+
+
+.admin-arami-sheet-detail-area{
+    margin-top: 30px;
+    border: 1px solid black;
+    border-radius: 13px;
+    padding: 10px;
+}
+
+.admin-arami-sheet-detail-flex{
+    display: flex;
+}
+
+.admin-arami-sheet-detail-left{
+    padding-right: 10px;
+}
+
+.admin-arami-sheet-detail-name{
+
+}
+
+.admin-arami-sheet-detail-right{
+    border-left: 1px solid black;
+    padding-left: 15px;
+}
+
+.admin-arami-sheet-detail-right-img{
+    max-width: 150px;
+}
+
+
+/***********************************************************
+                粗見用シート
+************************************************************/
+
+.admin-user-table-area{
+
+}
+
+.admin-arami-title-main {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 800;
+    color: cornflowerblue;
+}
+
+
+.admin-arami-title {
+    text-align: center;
+    font-size: 24px;
+    color: black;
+    border-bottom: 2px solid darkseagreen;
+    font-weight: 600;
+    padding-bottom: 5px;
+}
+
+.admin-arami-make-area {
+    margin-top: 80px;
+}
+
+.admin-arami-make-target-area {
+    margin-left: 20px;
+    margin-top: 40px;
+}
+
+.admin-arami-make-target-title {
+    font-size: 30px;
+    color: black;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.admin-arami-make-target-title-text {
+    border-bottom: 1px solid black;
+    margin-right: 30px;
+}
+
+.admin-arami-make-return-area {
+    text-align: center;
+}
+
+.admin-arami-make-return-text {
+    margin-bottom: 10px;
+}
+
+.admin-remote-register-arami-button{
+
+}
+
+.admin-arami-edit-radio-area {
+    text-align: center;
+    margin-top: 50px;
+    font-weight: 700;
+    font-size: 21px;
+}
+
+.admin-arami-sheet-delete-area {
+    margin-top: 80px;
+    text-align: center;
+}
+
+.admin-arami-sheet-delete-text {
+    font-size: 18px;
+    font-weight: 600;
+    color: red;
+}
+
+.admin-arami-edit-target-flex {
+    display: flex;
+    
+}
+
+
+.admin-arami-edit-target-text {
+    width: 630px;
+}
+
+.admin-arami-edit-target-img {
+    margin-left: 10px;
+    display: flex;
+    padding-right: 10px;
+}
+
+
+.admin-arami-printing-target-area {
+    margin-left: 10px;
+    margin-right: 10px;
+    border-bottom: 4px solid darkseagreen;
+}
+
+.admin-arami-printing-flex-box {
+    display: flex;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    height: 200px;
+}
+
+.admin-arami-printing-detail-box{
+
+}
+
+.admin-arami-printing-img-box {
+    margin-left: 20px;
+    width: 200px;
+    text-align: center;
+}
+
+.admin-arami-printing-messege-box {
+    margin-left: 20px;
+    width: 500px;
+    border-left: 3px solid gainsboro;
+}
+
+.admin-arami-printing-detail-number {
+    font-size: 30px;
+    font-weight: 600;
+    color: black;
+}
+
+.admin-arami-printing-detail-number-box {
+    border: 3px solid #e7e73f;
+    height: 5px;
+}
+
+.admin-arami-printing-detail-kana {
+    font-size: 20px;
+    color: black;
+    margin-top: 5px;
+    text-align: center;
+}
+
+.admin-arami-printing-detail-name {
+    font-size: 20px;
+    color: black;
+    margin-top: 5px;
+    text-align: center;
+}
+
+.admin-arami-printing-detail-birth {
+    font-size: 24px;
+    color: black;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.admin-arami-printing-messege-area {
+    line-height: 0.4;
+    padding-left: 10px;
+    font-size: 20px;
+    padding-top: 5px;
+}
+
+
+    .admin-arami-printing-messege-area p {
+        border-bottom: 2px dotted gainsboro;
+        padding-bottom: 8px;
+        margin-top: 5px;
+    }
+/*************
+/***********************************************************
+                画像アップロード
+************************************************************/
+.input-img-upload-box {
+    padding-top: 100px;
+    max-width: 750px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.input-img-upload-text {
+    text-align: center;
+    background-color: #22a73f;
+    height: 80px;
+    color: white;
+    font-size: 50px;
+    font-weight: 800;
+    padding-top: 10px;
+}
+
+.input-img-upload-message {
+    max-width: 700px;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+    color: black;
+    font-weight: 700;
+}
+
+.input-img-upload-form-text {
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 100px;
+}
+
+
+.input-img-upload-button {
+    margin-top: 50px;
+    max-width: 500px;
+    width: 100%;
+    height: 50px;
+    border-radius: 18px;
+    font-size: 24px;
+    background-color: gray;
+    color: white;
+    margin-left: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+
+.input-img-upload-form-box {
+}
+
+.input-img-upload-form--label {
+    
+    color: black;
+    font-weight: 600;
+}
+
+.input-img-upload-img-area{
+
+}
+
+.admin-temporary-registration-check-box {
+    margin-right:5px;
+    font-weight: 800;
+    color: black;
+    margin-top: 5px;
+    font-size: 12px;
+}
+
+
+@media screen and (min-width: 561px) {
+    .input-img-upload-form-box {
+        display: flex;
+    }
+
+
+    .input-img-upload-form--label {
+        width: 300px;
+    }
+}
+
+
+
+@media screen and (max-width: 560px) {
+    .input-img-upload-form-box {
+       
+    }
+
+
+    .input-img-upload-form--label {
+    }
+}
+
+
+
+/***********************************************************
+               お知らせ
+************************************************************/
+
+.admin-news-text-contens {
+    margin-top: 100px;
+    border-top: 1px solid black;
+    padding-top: 30px;
+}
+
+.admin-news-text-edit-button-area {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.admin-news-text-edit-button-message {
+    margin-top: 20px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.admin-news-text-box {
+    border: 1px solid black;
+    border-radius: 18px;
+    margin-top: 40px;
+    padding: 10px;
+}
+
+.admin-news-text-area{
+
+}
+
+.admin-news-no-individual-area {
+    margin-top: 50px;
+}
+
+.admin-news-no-individual-title {
+    text-align: center;
+    font-size: 24px;
+    color: black;
+}
+
+.admin-news-no-individual {
+    max-width: 850px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px;
+}
+
+/***********************************************************
+                スケジュール
+************************************************************/
+
+.admin-schedule-calendar-title-area {
+    display: flex;
+    font-size: 30px;
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+.admin-schedule-calendar-title-moanth {
+    margin-right: 20px;
+}
+
+.admin-schedule-calendar-title{
+
+}
+
+table.admin-schedule-calendar-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+
+   
+
+    table.admin-schedule-calendar-table th {
+        background: #f4f4f4;
+        max-width: 200px;
+        text-align: center;
+        border: 1px solid #ddd;
+        padding: 10px;
+        vertical-align: top;
+    }
+
+    table.admin-schedule-calendar-table td {
+        white-space: normal;
+        font-size: 11px;
+        height: 110px;
+        max-width: 200px;
+        text-align: center;
+        border: 1px solid #ddd;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        vertical-align: top;
+    }
+
+.schedule-calendar-table-prev-month, .schedule-calendar-table-next-month {
+    color: #bbb;
+}
+
+.schedule-calendar-table-current-month {
+    font-weight: bold;
+}
+
+
+/* フレックスボックスで内部レイアウトを調整 */
+.schedule-calendar-table-td-content {
+    display: flex;
+    flex-direction: column; /* 縦配置 */
+    align-items: flex-start; /* デフォルトは左寄せ */
+    justify-content: flex-start; /* 上寄せ */
+    height: 90%;
+}
+
+/* 「〇日」の部分（1行目） */
+.schedule-calendar-table-date-header {
+    width: 100%;
+    text-align: center; /* 中央揃え */
+    font-weight: bold;
+    align-self: flex-start; /* 上寄せ */
+}
+
+/* その他の情報（2行目以降） */
+.schedule-calendar-table-date-content {
+    width: 100%;
+    text-align: left; /* 左寄せ */
+    margin-top: 5px; /* 少し間隔を空ける */
+}
+
+
+
+/* 新規作成  */
+.schedule-calendar-table-new-content {
+    width: 100%;
+    text-align: center; /* 中央揃え */
+    font-weight: bold;
+}
+
+
+.schedule-calendar-holiday {
+    background-color: aqua;
+    text-align: center;
+    border-radius: 21px;
+    color: black;
+    padding: 1px;
+    white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+/***********************************************************
+              粗見シート
+************************************************************/
+.admin-new-submit-button{
+    background-color: red;
+    cursor: pointer;
+    height: 40px;
+    width: 400px;
+    color: white;
+    border-radius: 15px;
+    font-size: 16px;
+    font-weight: bold;
+}
+.admin-arami-sheet-list-new-sheet-area{
+    display: flex;
+    border: 1px solid blue;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 10px;
+    border-radius: 9px;
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.admin-arami-sheet-list-new-sheet-area::before {
+    content: "新規作成";
+    position: absolute;
+    top: -17px;
+    left: 20px;
+    background: white;
+    padding: 0 10px;
+    color: crimson;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.admin-arami-sheet-list-new-sheet-box{
+    display: flex;
+}
+
+.admin-arami-sheet-list-new-sheet-title{
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.admin-arami-sheet-list-new-sheet-select{
+    margin-left: 10px;
+    margin-right: 45px;
+}
+
+.admin-arami-sheet-list-new-sheet-text{
+    margin-left: 10px;
+    margin-right: 45px;
+}
+
+.admin-arami-sheet-list-new-sheet-button{
+
+}
+
+.admin-arami-sheet-list-new-sheet-button-submit{
+    width: 150px;
+    border-radius: 8px;
+}
+
+.arami-sheet-target-choice-area{
+    margin-top: 30px;
+}
+
+.admin-arami-sheet-edit-delete-button{
+    width: 590px;
+    height: 50px;
+    border-radius: 8px;
+    font-size: 20px;
+    background-color: darkgray;
+    color: white;
+    margin-top: 120px;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+.admin-arami-sheet-edit-delete-off-button {
+    width: 590px;
+    height: 50px;
+    border-radius: 8px;
+    font-size: 20px;
+    background-color: darkgray;
+    color: darkkhaki;
+    margin-top: 120px;
+    font-weight: 600;
+}
+
+table.arami-sortable-table{
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+
+
+table.arami-sortable-table td{
+    border: 1px solid black;
+    height: 40px;
+    text-align: center;
+}
+
+table.arami-sortable-table th{
+    border: 1px solid black;
+}
+

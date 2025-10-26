@@ -1,0 +1,86 @@
+/* CSS - ローディング表示用 */
+.user-official-store-button {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.user-official-store-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.user-official-store-button.loading::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  margin: auto;
+  border: 2px solid transparent;
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.user-official-store-button.loading .button-text {
+  opacity: 0;
+}
+
+/* カートバッジ更新アニメーション */
+.user-official-store-cart-badge.updated {
+  /*animation: bounce 0.3s ease-in-out;
+  background-color: #4CAF50;*/
+}
+
+@keyframes spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+      transform: translateY(0);
+  }
+  40% {
+      transform: translateY(-10px);
+  }
+  60% {
+      transform: translateY(-5px);
+  }
+}
+
+
+/* メッセージ表示用CSS */
+.cart-message {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  padding: 15px 20px;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  animation: slideIn 0.3s ease-in-out;
+}
+
+.cart-message-success {
+  background-color: #4CAF50;
+}
+
+.cart-message-error {
+  background-color: #f44336;
+}
+
+@keyframes slideIn {
+  from {
+      transform: translateX(100%);
+      opacity: 0;
+  }
+  to {
+      transform: translateX(0);
+      opacity: 1;
+  }
+}

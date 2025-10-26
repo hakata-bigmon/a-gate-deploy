@@ -1,0 +1,195 @@
+/* サイドメニュー全体 */
+.user-layout { display: flex; height: 100vh; overflow: hidden; }
+.user-sidebar { 
+  width: 250px; 
+  min-width: 240px; 
+  background: transparent linear-gradient(180deg, #800A90 0%, #C18AD1 100%) 0% 0% no-repeat padding-box;
+  color: #fff; 
+  position: fixed; 
+  left: 0; 
+  top: 0; 
+  bottom: 0; 
+  z-index: 1000; 
+  transition: transform 0.3s; 
+  overflow-y: auto; 
+  box-shadow: 2px 0 16px #b39ddb44; 
+  border-top-right-radius: 24px; 
+  border-bottom-right-radius: 24px; 
+}
+
+/* デフォルトでは非表示 */
+.user-sidebar.closed { transform: translateX(-100%); }
+.user-sidebar.open { transform: translateX(0); }
+
+/* デスクトップサイズでの制御 */
+@media (min-width: 700px) {
+  /* デスクトップサイズでは初期状態で表示 */
+  .user-sidebar {
+    transform: translateX(0);
+  }
+  /* デスクトップでclosedクラスがある場合のみ非表示 */
+  .user-sidebar.closed {
+    transform: translateX(-100%);
+  }
+  .user-sidebar.open {
+    transform: translateX(0);
+  }
+}
+
+/* モバイルサイズでのみ通常の動作 */
+@media (max-width: 699px) {
+  .user-sidebar.closed {
+    transform: translateX(-100%);
+  }
+  .user-sidebar.open {
+    transform: translateX(0);
+  }
+}
+.user-sidebar-inner { padding: 32px 0 0 0; display: flex; flex-direction: column; }
+.user-sidebar-header { padding: 0 24px 24px 24px; border-bottom: 1px solid #fff2; }
+.user-logo { 
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 18px;
+  letter-spacing: 0.04em;
+  margin-top: 35px;
+  text-align: center;
+}
+.user-lang { 
+  font-size: 14px;
+  margin-bottom: 12px;
+  display: flex;
+  gap: 6px;
+  background-color: white;
+  color: #C18AD1;
+  justify-content: center;
+  border-radius: 14px;
+  display: none;
+}
+.user-menu-line{
+  margin-top: 50px;
+  width: 100%;
+  border-top: 1px solid white;
+}
+.user-id { 
+  background: #C18AD1;
+  border-radius: 16px;
+  padding: 6px 0;
+  text-align: center;
+  margin-bottom: 8px;
+  font-size: 14px;
+  margin-top: 50px;
+}
+.user-name { 
+  margin-bottom: 8px;
+  text-align: center;
+  font-size: 16px; 
+}
+.user-point { 
+  font-weight: bold;
+  font-size: 1.15em;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: center;
+  display: none;
+}
+.user-notify { margin-bottom: 18px; }
+.user-notify-btn { 
+  background: #fff;
+  color: #C18AD1;
+  border-radius: 24px;
+  font-size: 14px;
+  position: relative;
+  display: flex;
+  gap: 6px;
+  box-shadow: 0 1px 6px #e0e7ef;
+  margin-top: 50px;
+  margin-bottom: 12px;
+  align-items: center;
+  justify-content: center;
+  width: 130px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.user-notify-btn:hover{
+  background: #8B23AA;
+  color: #fff;
+}
+
+.user-badge { background: #e53935; color: #fff; border-radius: 50%; font-size: 0.85em; padding: 2px 7px; position: absolute; top: -8px; right: -18px; font-weight: bold; }
+.user-menu { flex: 1; padding: 24px 0 0 0; }
+.user-menu ul { list-style: none; padding: 0; margin: 0; }
+.user-menu li {  }
+.user-menu a { 
+
+  display: block;
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  text-decoration: none;
+  transition: background 0.18s, color 0.18s;
+  border-bottom: 1px solid white;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding-bottom: 15px;
+  padding-top: 15px;
+}
+.user-menu a.active, .user-menu a:hover { background: #712488; }
+
+.user-main-content {
+  flex: 1;
+  overflow-y: auto;
+  min-width: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.user-main-footer { background: #8e24aa; color: #fff; text-align: center; padding: 28px 0 18px 0; margin-top: auto; }
+.footer-text { font-size: 1em; opacity: 0.95; }
+.sidebar-toggle {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 1100;
+  background: #8e24aa;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+@media (min-width: 700px) {
+  .user-main-content {
+    margin-left: 320px;
+    transition: margin-left 0.3s;
+  }
+  .user-sidebar.closed ~ .user-main-content {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 700px) {
+  .user-sidebar { 
+    width: 90vw; 
+    min-width: 0; 
+    max-width: 400px; 
+    position: fixed; 
+    left: 0; 
+    top: 0; 
+    bottom: 0; 
+    box-shadow: 2px 0 12px rgba(0,0,0,0.18); 
+    border-radius: 0 18px 18px 0; 
+  }
+  .user-sidebar.open { transform: translateX(0); }
+  .user-main-content { margin-left: 0; }
+  .sidebar-toggle { right: 12px; top: 12px; }
+}
